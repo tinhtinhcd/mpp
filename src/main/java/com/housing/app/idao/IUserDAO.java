@@ -1,5 +1,11 @@
 package com.housing.app.idao;
 
-public interface IUserDAO {
 
+import org.springframework.stereotype.Repository;
+
+import com.housing.app.models.UserModel;
+
+@Repository
+public interface IUserDAO extends Idao<UserModel>{
+	
 }

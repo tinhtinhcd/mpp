@@ -1,5 +1,10 @@
 package com.housing.app.iservice;
 
-public interface IUserService {
+import org.springframework.stereotype.Service;
 
+import com.housing.app.models.UserModel;
+
+@Service
+public interface IUserService extends IService<UserModel>{
+	
 }
