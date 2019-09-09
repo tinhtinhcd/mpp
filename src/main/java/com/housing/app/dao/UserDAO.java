@@ -1,5 +1,7 @@
 package com.housing.app.dao;
 
-public class UserDAO {
+import com.housing.app.idao.IUserDAO;
+
+public class UserDAO implements IUserDAO{
 
 }

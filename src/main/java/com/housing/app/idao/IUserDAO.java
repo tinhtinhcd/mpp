@@ -1,5 +1,5 @@
 package com.housing.app.idao;
 
-public class IUserDAO {
+public interface IUserDAO {
 
 }
