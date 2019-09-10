@@ -3,11 +3,9 @@ package com.housing.app.iservice;
 import java.util.List;
 import java.util.Optional;
 
-import com.housing.app.models.AuditModel;
-
 public interface IService<T> {
 
-	Optional<T> get(long id);
+	Optional<T> get(int id);
 
 	List<T> getAll();
 

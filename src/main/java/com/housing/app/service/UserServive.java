@@ -17,7 +17,7 @@ public class UserServive implements IUserService {
 	IUserDAO userdao;
 
 	@Override
-	public Optional<UserModel> get(long id) {
+	public Optional<UserModel> get(int id) {
 		return userdao.get(id);
 	}
 
@@ -34,7 +34,7 @@ public class UserServive implements IUserService {
 
 	@Override
 	public void update(UserModel t, String[] params) {
-		userdao.update(t, params);
+		userdao.update(t);
 	}
 
 	@Override

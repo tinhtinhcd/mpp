@@ -3,18 +3,18 @@ package com.housing.app.idao;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public interface Idao<T> {
 
-	Optional<T> get(long id);
+	Optional<T> get(int id);
 
 	List<T> getAll();
 
-	void save(T t);
+	int save(T t);
 
-	void update(T t, String[] params);
+	void update(T t);
 
 	void delete(T t);
 }
