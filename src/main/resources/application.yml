@@ -1,0 +1,124 @@
+logging:
+  level:
+    root: ERROR
+    org.springframework: ERROR
+    com.listing.fr.api: ERROR
+
+server:
+  port: 8080
+  servlet:
+    contextPath: /api/v1
+
+spring:
+  application:
+    name: listing_api
+  servlet:
+   multipart:
+    max-file-size: 20MB
+  profiles:
+    active: local
+  flyway:
+    enabled: true
+    schemas: listing
+    out-of-order: true
+  hateoas:
+    use-hal-as-default-json-media-type: true
+  http:
+    converters:
+      preferred-json-mapper: jackson
+  mvc:
+    pathmatch:
+      use-registered-suffix-pattern: true
+    contentnegotiation:
+      favor-parameter: true
+      favor-path-extension: true
+      parameter-name: format
+      media-types:
+        json: application/json
+        xml: application/xml
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+      WRITE_DATES_AS_TIMESTAMPS: true
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/listing
+    username: mpp
+    password: mpp
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      default-schema: listing
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        default-schema: listing
+  flyway:
+    locations:
+    - classpath:db/migration
+
+---
+spring:
+  profiles: dev
+  datasource:
+    jndi-name: java:comp/env/jdbc/listingdev
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      default-schema: listing
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+        default-schema: listing
+  flyway:
+    locations:
+    - classpath:db/migration
+
+---
+spring:
+  profiles: production
+  datasource:
+    jndi-name: java:comp/env/jdbc/listingprod
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      default-schema: listing
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+        default-schema: listing
+  flyway:
+    locations:
+    - classpath:db/migration
+
+---
+spring:
+  profiles: scheduler
+  datasource:
+    jndi-name: java:comp/env/jdbc/listingprod
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      default-schema: listing
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        default-schema: listing
+  flyway:
+    locations:
+    - classpath:db/migration
