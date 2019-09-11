@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,6 +52,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     );
 
     private final List<String> getRequests = Arrays.asList(
+            // swagger-ui
+            "/v2/api-docs",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/swagger-resources",
+            "/health",
             "/search"
     );
 
