@@ -2,7 +2,7 @@ set search_path to  listing;
 
 -- ADD new two table: listing_utility, listing_image
 create table if not exists listing_utility (
-	id bigint NOT NULL,
+	id serial NOT NULL,
 	listing_id bigint NOT NULL,
 	utility_id bigint NOT NULL,
 	CONSTRAINT listing_utility_pk PRIMARY KEY (id),
@@ -11,7 +11,7 @@ create table if not exists listing_utility (
 );
 
 create table if not exists listing_image (
-	id int8 NOT NULL,
+	id serial NOT NULL,
 	listing_id int8 NOT NULL,
 	url varchar NOT NULL,
     CONSTRAINT listing_image_pk PRIMARY KEY (id),
