@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class Listing extends AuditModel {
 
-	private long title;
+	private String title;
 	private long latitude;
 	private long longitude;
 	private String address;
@@ -37,5 +37,7 @@ public class Listing extends AuditModel {
 	private int listType;
 	@OneToMany(mappedBy = "id")
 	private List<Ultility> utilities;
+	@ManyToOne
+	private User user;
 
 }
