@@ -1,7 +1,9 @@
 package com.housing.app.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -13,6 +15,6 @@ import lombok.Setter;
 @Setter
 public class Ultility extends AuditModel {
 	private String description;
-	@ManyToOne
-	private Listing listing;
+	@OneToMany(mappedBy = "listing")
+	private List<ListingUtilities> listingUtilities;
 }

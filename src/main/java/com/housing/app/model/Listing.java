@@ -35,8 +35,8 @@ public class Listing extends AuditModel {
 	private long description;
 	@Column(name = "list_type")
 	private int listType;
-	@OneToMany(mappedBy = "id")
-	private List<Ultility> utilities;
+	@OneToMany(mappedBy = "ultility")
+	private List<ListingUtilities> listingUtilities;
 	@ManyToOne
 	private User user;
 
