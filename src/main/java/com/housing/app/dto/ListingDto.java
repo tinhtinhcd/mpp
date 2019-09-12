@@ -25,6 +25,4 @@ public class ListingDto {
 	private int area;
 	private long description;
 	private int listType;
-	private List<Ultility> utilities;
-	private UserDto userDto;
 }

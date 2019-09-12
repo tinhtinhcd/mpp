@@ -31,7 +31,7 @@ create table if not exists listing (
     latitude numeric,
     longitude numeric(10,0),
     address varchar(500),
-    price money,
+    price int,
     available_from date ,
     status varchar(100) NOT NULL,
     minimum_lease integer ,
@@ -121,7 +121,7 @@ create trigger listing_tg before insert or update on listing for each row execut
 -- Extension GEO
 CREATE EXTENSION cube;
 CREATE EXTENSION earthdistance;
-CREATE INDEX if not exists listing_geo_index on listing USING gist(ll_to_earth(latitude, longitude));
+CREATE INDEX listing_geo_index on listing USING gist(ll_to_earth(latitude, longitude));
 
 
 

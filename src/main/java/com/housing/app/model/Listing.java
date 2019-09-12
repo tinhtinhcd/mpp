@@ -5,16 +5,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * The persistent class for the user database table.
  */
+@Data
 @Entity
 @Table(name = "listing", schema = "`listing`")
-@Getter
-@Setter
 public class Listing extends AuditModel {
 
 	private String title;
@@ -32,12 +30,13 @@ public class Listing extends AuditModel {
 	@Column(name = "num_bath")
 	private int numBath;
 	private int area;
-	private long description;
+	private String description;
 	@Column(name = "list_type")
 	private int listType;
 	@OneToMany(mappedBy = "id")
 	private List<Ultility> utilities;
 	@ManyToOne
+	@JoinColumn(name = "created_by")
 	private User user;
 
 }

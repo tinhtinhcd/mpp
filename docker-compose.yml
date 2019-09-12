@@ -1,9 +1,9 @@
 version: "2.1"
 
 services:
-  springboot-api-demo:
-    container_name: mpp_api
-    image: "mpp_api"
+  api:
+    container_name: api
+    image: "docker171085/api"
     mem_limit: 1024m
     ports:
       - "8080:8080"
@@ -13,11 +13,11 @@ services:
       - ENVIRONMENT=local
       - AUTH_ENABLED=false
   postgres:
-    container_name: pgdb
+    container_name: postgres
     image: postgres:9.6-alpine
     environment:
       - 'POSTGRES_ROOT_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_PASSWORD=postgres'
     ports:
-      - "54321:5432"
+      - "5432:5432"
