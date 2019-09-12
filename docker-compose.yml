@@ -3,7 +3,7 @@ version: "2.1"
 services:
   api:
     container_name: api
-    image: "api"
+    image: "docker171085/api"
     mem_limit: 1024m
     ports:
       - "8080:8080"
