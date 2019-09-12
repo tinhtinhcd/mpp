@@ -1,6 +1,7 @@
 version: "2.1"
 
 services:
+
   api:
     container_name: api
     image: "docker171085/listing_api"
@@ -10,11 +11,11 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=dev
   postgres:
-    container_name: postgres
+    container_name: pgdb
     image: postgres:9.6-alpine
     environment:
       - 'POSTGRES_ROOT_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_PASSWORD=postgres'
     ports:
-      - "5432:5432"
+      - "54321:5432"

@@ -3,8 +3,7 @@ package com.housing.app.model;
 
 import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,8 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users", schema = "`listing`")
-@Getter
-@Setter
+@Data
 public class User{
 
     @Id
@@ -56,5 +54,5 @@ public class User{
 
     @OneToMany(mappedBy = "id")
     private List<Listing> listings;
-    
+ 
 }

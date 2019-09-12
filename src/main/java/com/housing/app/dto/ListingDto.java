@@ -1,16 +1,10 @@
 package com.housing.app.dto;
 
 import java.util.Date;
-import java.util.List;
 
-import com.housing.app.model.Ultility;
-import com.housing.app.model.User;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
 public class ListingDto {
 	private String title;
 	private long latitude;
@@ -25,4 +19,5 @@ public class ListingDto {
 	private int area;
 	private long description;
 	private int listType;
+	private int[] utilities;
 }
