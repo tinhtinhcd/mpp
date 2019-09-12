@@ -1,15 +1,10 @@
 version: "2.1"
 
 services:
-<<<<<<< HEAD
-  springboot-api-demo:
-    container_name: mpp_api
-    image: "mpp_api"
-=======
+
   api:
     container_name: api
     image: "docker171085/listing_api"
->>>>>>> develop
     mem_limit: 1024m
     ports:
       - "8080:8080"
