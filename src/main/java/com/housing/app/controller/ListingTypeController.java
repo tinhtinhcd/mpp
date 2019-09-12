@@ -1,6 +1,7 @@
 package com.housing.app.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.housing.app.dto.ListingTypeDto;
 import com.housing.app.mapper.ListingTypeMapper;
+import com.housing.app.model.Listing;
 import com.housing.app.model.ListingType;
 import com.housing.app.repo.ListingTypeRepository;
 import com.housing.app.service.ListingTypeService;
@@ -36,9 +38,10 @@ public class ListingTypeController {
 	private final ListingTypeMapper mapper = Mappers.getMapper(ListingTypeMapper.class);
 
 	@GetMapping(value = "/all")
-	public ResponseEntity<List<ListingType>> getAll() {
-		Assert.notNull(listingTypeService.findAll(), "Body must not be null");
-		return new ResponseEntity<>(listingTypeService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<ListingTypeDto>> getAll() {
+		List<ListingType> listings = listingTypeService.findAll();
+		return new ResponseEntity<>(listings.stream().map(p -> mapper.toDto(p)).collect(Collectors.toList()),
+				HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/create")

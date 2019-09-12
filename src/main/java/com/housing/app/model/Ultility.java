@@ -41,7 +41,5 @@ public class Ultility {
 	private Date updatedAt;
 
 	private String description;
-
-	@OneToMany(mappedBy = "ultility")
-	private Set<ListingUtilities> listingUtilities;
+	
 }

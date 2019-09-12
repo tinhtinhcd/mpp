@@ -25,8 +25,4 @@ public class ListingUtilities {
 	@JoinColumn(name = "listing_id")
 	Listing listing;
 
-	@ManyToOne
-	@JoinColumn(name = "utility_id")
-	Ultility ultility;
-
 }

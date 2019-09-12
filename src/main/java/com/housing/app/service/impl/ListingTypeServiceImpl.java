@@ -10,7 +10,7 @@ import com.housing.app.repo.ListingTypeRepository;
 import com.housing.app.service.ListingTypeService;
 
 @Service
-public class ListingTypeImplement implements ListingTypeService {
+public class ListingTypeServiceImpl implements ListingTypeService {
 
 	@Autowired
 	ListingTypeRepository listingTypeRepository;

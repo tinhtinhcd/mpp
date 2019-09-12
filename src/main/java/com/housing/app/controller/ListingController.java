@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import com.housing.app.dto.ListingSearchRequest;
 import com.housing.app.mapper.ListingMapper;
-import com.housing.app.mapper.UserMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,17 +40,16 @@ public class ListingController {
 
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<ListingDto>> getAll() {
-		Assert.notNull(listingService.findAll(), "Body must not be null");
 		List<Listing> listings = listingService.findAll();
-		List<ListingDto> listingDtos = listings.stream().map(p -> mapper.toListingDto(p)).collect(Collectors.toList());
-		return new ResponseEntity<>(listingDtos, HttpStatus.OK);
+		return new ResponseEntity<>(listings.stream().map(p -> mapper.toListingDto(p)).collect(Collectors.toList()),
+				HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/create")
 	public ResponseEntity<ListingDto> create(@Valid @RequestBody ListingDto listingDto, BindingResult result) {
 		RequestUtil.validateRequest(result);
 		Listing listing = mapper.toPersistent(listingDto);
-		listing.setUser(userService.findById(listingDto.getUserDto()));
+		listing.setUser(userService.findUserByEmail(listingDto.getEmailAddress()));
 		listingService.create(listing);
 		return new ResponseEntity<>(listingDto, HttpStatus.OK);
 	}
