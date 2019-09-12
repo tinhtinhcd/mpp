@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UltilityDto {
-	private int listingId;
-	private String description;
+public class ListingTypeDto {
+	String description;
 }

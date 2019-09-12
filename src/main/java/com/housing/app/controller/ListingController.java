@@ -1,6 +1,7 @@
 package com.housing.app.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -33,12 +34,14 @@ public class ListingController {
 	@Autowired
 	UserService userService;
 
-	ListingMapper mapper = Mappers.getMapper(ListingMapper.class);
+	private final ListingMapper mapper = Mappers.getMapper(ListingMapper.class);
 
 	@GetMapping(value = "/all")
-	public ResponseEntity<List<Listing>> getAll() {
+	public ResponseEntity<List<ListingDto>> getAll() {
 		Assert.notNull(listingService.findAll(), "Body must not be null");
-		return new ResponseEntity<>(listingService.findAll(), HttpStatus.OK);
+		List<Listing> listings = listingService.findAll();
+		List<ListingDto> listingDtos = listings.stream().map(p -> mapper.toDto(p)).collect(Collectors.toList());
+		return new ResponseEntity<>(listingDtos, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/create")
