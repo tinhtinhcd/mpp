@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.housing.app.dto.ListingTypeDto;
 import com.housing.app.mapper.ListingTypeMapper;
-import com.housing.app.model.Listing;
 import com.housing.app.model.ListingType;
 import com.housing.app.repo.ListingTypeRepository;
 import com.housing.app.service.ListingTypeService;
@@ -53,4 +51,18 @@ public class ListingTypeController {
 		return new ResponseEntity<>(listingTypeDto, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/createList")
+	public ResponseEntity<List<ListingType>> create(@Valid @RequestBody List<String> listingTypeDto,
+			BindingResult result) {
+		RequestUtil.validateRequest(result);
+
+		List<ListingType> listingTypes = listingTypeDto.stream().map(s -> {
+			ListingType listing = new ListingType();
+			listing.setDescription(s);
+			return listing;
+		}).collect(Collectors.toList());
+
+		listingTypeService.saveAll(listingTypes);
+		return new ResponseEntity<>(listingTypes, HttpStatus.OK);
+	}
 }

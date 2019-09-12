@@ -45,7 +45,7 @@ spring:
 spring:
   profiles: local
   datasource:
-    url: jdbc:postgresql://localhost:5432/listing
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=listing
     username: postgres
     password: tinhtinh
     driver-class-name: org.postgresql.Driver
@@ -67,15 +67,17 @@ spring:
 spring:
   profiles: dev
   datasource:
-    jndi-name: java:comp/env/jdbc/listingdev
-    driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://postgres:5432/postgres?currentSchema=listing
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       default-schema: listing
     properties:
       hibernate:
-        show_sql: false
+        show_sql: true
         use_sql_comments: true
         format_sql: true
         default-schema: listing

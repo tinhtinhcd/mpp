@@ -7,12 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "listing_type", schema = "`listing`")
 public class ListingType {
 
@@ -21,5 +19,6 @@ public class ListingType {
 	@Column(name = "id")
 	private int id;
 
+	@Column(name = "description", unique = true)
 	private String description;
 }

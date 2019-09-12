@@ -25,4 +25,12 @@ public class ListingTypeServiceImpl implements ListingTypeService {
 		return listingTypeRepository.save(listingType);
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public List<ListingType> saveAll(List<ListingType> listingTypes) {
+		return listingTypeRepository.saveAll(listingTypes);
+	}
+
+>>>>>>> develop
 }
