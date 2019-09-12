@@ -18,7 +18,7 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
     if (errorCode != null) {
       ErrorEnum code = errorCode.code();
       return ResponseEntity.status(errorCode.status())
-          .body(new ErrorDto(code.getCode(), code.getMessage()));
+          .body(new ErrorDto(code.getCode(), code.getMessage() + ": " + ex.getMessage()));
     }
     logger.error("Internal Server Error: " + ex.getMessage(), ex);
     return ResponseEntity

@@ -58,18 +58,16 @@ public class UserController {
             authenticateUser(request.getUsername(), request.getPassword());
             String accessToken = tokenProvider.generateToken(request.getUsername());
             User currentUser = getCurrentUser(request.getUsername());
-            userService.saveUser(currentUser);
             UserDto dto = userMapper.toUserDto(currentUser);
             dto.setAccessToken(accessToken);
             return new ResponseEntity(dto, HttpStatus.OK);
-
         } catch (BadCredentialsException bce) {
             throw new LoginFailedException();
         }
     }
 
 	/**
-	 * Register user as Tenant
+	 * User registration
 	 *
 	 * @param request
 	 * @param result
