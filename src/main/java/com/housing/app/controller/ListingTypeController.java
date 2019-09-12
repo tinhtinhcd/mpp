@@ -52,7 +52,7 @@ public class ListingTypeController {
 	}
 
 	@PostMapping(value = "/createList")
-	public ResponseEntity<List<ListingType>> create(@Valid @RequestBody List<String> listingTypeDto,
+	public ResponseEntity<List<ListingType>> testCreateList(@Valid @RequestBody List<String> listingTypeDto,
 			BindingResult result) {
 		RequestUtil.validateRequest(result);
 

@@ -46,7 +46,7 @@ public class ListingController {
 				HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping
 	public ResponseEntity<ListingDto> create(@Valid @RequestBody ListingDto listingDto, BindingResult result,
 			Principal principal) {
 		RequestUtil.validateRequest(result);
