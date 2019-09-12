@@ -12,12 +12,22 @@ import com.housing.app.service.ListingService;
 @Service
 public class ListingServiceImpl implements ListingService {
 
-	@Autowired
-	ListingRepository listingRepository;
+	private final ListingRepository listingRepository;
 
+	@Autowired
+	public ListingServiceImpl(ListingRepository listingRepository) {
+		this.listingRepository = listingRepository;
+	}
+	
 	@Override
 	public List<Listing> findAll() {
 		return listingRepository.findAll();
+	}
+
+	@Override
+	public Listing create(Listing listing) {
+		listingRepository.saveAndFlush(listing);
+		return listing;
 	}
 
 }

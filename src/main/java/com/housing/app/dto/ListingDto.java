@@ -1,11 +1,6 @@
 package com.housing.app.dto;
 
 import java.util.Date;
-import java.util.List;
-
-import com.housing.app.model.Ultility;
-import com.housing.app.model.User;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +20,6 @@ public class ListingDto {
 	private int area;
 	private long description;
 	private int listType;
-	private List<Ultility> utilities;
-	private UserDto userDto;
+	private int[] utilities;
+	private int userDto;
 }

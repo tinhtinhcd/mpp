@@ -6,4 +6,5 @@ import com.housing.app.model.Listing;
 
 public interface ListingService {
 	public List<Listing> findAll();
+	public Listing create(Listing listing);
 }

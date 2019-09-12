@@ -4,6 +4,7 @@ import com.housing.app.exception.UserExistedException;
 import com.housing.app.model.User;
 import com.housing.app.repo.UserRepository;
 import com.housing.app.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,4 +51,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userRepository.saveAndFlush(user);
 	}
 
+	@Override
+	public User findById(long id) {
+		return userRepository.getOne(id);
+	}
+	
 }

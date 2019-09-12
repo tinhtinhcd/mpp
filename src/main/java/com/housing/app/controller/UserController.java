@@ -50,7 +50,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody LoginRequest request,
+    public ResponseEntity<UserDto> login(@Valid @RequestBody LoginRequest request,
                                 BindingResult result) {
 
         RequestUtil.validateRequest(result);
@@ -61,7 +61,7 @@ public class UserController {
             userService.saveUser(currentUser);
             UserDto dto = userMapper.toUserDto(currentUser);
             dto.setAccessToken(accessToken);
-            return new ResponseEntity(dto, HttpStatus.OK);
+            return new ResponseEntity<UserDto>(dto, HttpStatus.OK);
 
         } catch (BadCredentialsException bce) {
             throw new LoginFailedException();
@@ -76,7 +76,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/register")
-	public ResponseEntity registerTenant(@Valid @RequestBody UserRegisterRequest request,
+	public ResponseEntity<UserDto> registerTenant(@Valid @RequestBody UserRegisterRequest request,
 										 BindingResult result){
 
 		// validate request
@@ -95,7 +95,7 @@ public class UserController {
 		String accessToken = tokenProvider.generateToken(request.getEmail());
 		UserDto userDto = userMapper.toUserDto(user);
 		userDto.setAccessToken(accessToken);
-		return new ResponseEntity(userDto, HttpStatus.OK);
+		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
 
 
