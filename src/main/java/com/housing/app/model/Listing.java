@@ -33,10 +33,10 @@ public class Listing extends AuditModel {
 	private String description;
 	@Column(name = "list_type")
 	private int listType;
-	@OneToMany(mappedBy = "id")
-	private List<Ultility> utilities;
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User user;
+	@OneToMany(mappedBy = "listing")
+	private List<ListingImage> listingImages;
 
 }

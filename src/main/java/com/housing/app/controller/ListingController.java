@@ -2,18 +2,14 @@ package com.housing.app.controller;
 
 import java.util.List;
 
+import com.housing.app.dto.ListingDto;
 import com.housing.app.dto.ListingSearchRequest;
 import com.housing.app.mapper.ListingMapper;
-import com.housing.app.mapper.UserMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.housing.app.model.Listing;
 import com.housing.app.service.ListingService;
@@ -35,5 +31,10 @@ public class ListingController {
 	@GetMapping(value = "/search")
 	public ResponseEntity<List<Listing>> search(@RequestBody ListingSearchRequest request) {
 		return new ResponseEntity(listingMapper.toListingResultDto(listingService.search(request)), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/view/{id}")
+	public ResponseEntity<ListingDto> view(@PathVariable Long id){
+		return new ResponseEntity(listingMapper.toListingDto(listingService.findById(id)), HttpStatus.OK);
 	}
 }

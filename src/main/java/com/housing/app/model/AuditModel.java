@@ -18,7 +18,7 @@ public abstract class AuditModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created", nullable = false, updatable = false)
