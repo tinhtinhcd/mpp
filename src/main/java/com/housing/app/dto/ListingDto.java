@@ -1,11 +1,10 @@
 package com.housing.app.dto;
 
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+import lombok.Data;
+
+@Data
 public class ListingDto {
 	private String title;
 	private long latitude;

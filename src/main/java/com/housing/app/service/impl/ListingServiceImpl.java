@@ -2,7 +2,12 @@ package com.housing.app.service.impl;
 
 import java.util.List;
 
+import com.housing.app.dto.ListingResultDto;
+import com.housing.app.dto.ListingSearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.housing.app.model.Listing;
@@ -30,4 +35,9 @@ public class ListingServiceImpl implements ListingService {
 		return listing;
 	}
 
+	public Page<Listing> search(ListingSearchRequest request) {
+		return listingRepository.searchListing(request.getLatitude(), request.getLongitude(), request.getRadius(),
+				request.getPrice(), request.getArea(),
+				PageRequest.of(request.getPage(), request.getSize(), Sort.Direction.DESC, "last_modified"));
+	}
 }

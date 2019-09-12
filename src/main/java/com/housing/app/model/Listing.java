@@ -9,8 +9,7 @@ import javax.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * The persistent class for the user database table.
@@ -18,8 +17,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "listing", schema = "`listing`")
-@Getter
-@Setter
+@Data
 public class Listing {
 
 	@Id
@@ -36,7 +34,7 @@ public class Listing {
 	@Column(name = "last_modified", nullable = false)
 	@LastModifiedDate
 	private Date updatedAt;
-	
+
 	private String title;
 	private long latitude;
 	private long longitude;
@@ -52,7 +50,7 @@ public class Listing {
 	@Column(name = "num_bath")
 	private int numBath;
 	private int area;
-	private long description;
+	private String description;
 	@Column(name = "list_type")
 	private int listType;
 	@OneToMany(mappedBy = "ultility")
