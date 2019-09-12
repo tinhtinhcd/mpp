@@ -1,5 +1,6 @@
 package com.housing.app.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,10 +47,11 @@ public class ListingController {
 	}
 
 	@PostMapping(value = "/create")
-	public ResponseEntity<ListingDto> create(@Valid @RequestBody ListingDto listingDto, BindingResult result) {
+	public ResponseEntity<ListingDto> create(@Valid @RequestBody ListingDto listingDto, BindingResult result,
+			Principal principal) {
 		RequestUtil.validateRequest(result);
 		Listing listing = mapper.toPersistent(listingDto);
-		listing.setUser(userService.findUserByEmail(listingDto.getEmailAddress()));
+		listing.setUser(userService.findUserByEmail(principal.getName()));
 		listingService.create(listing);
 		return new ResponseEntity<>(listingDto, HttpStatus.OK);
 	}

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/user", produces = { "application/json", "application/xml" })
+@RequestMapping(value = "/user", produces = { "application/json"})
 public class UserController {
 
 	@Autowired

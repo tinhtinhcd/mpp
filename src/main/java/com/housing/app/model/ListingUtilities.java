@@ -20,8 +20,9 @@ public class ListingUtilities {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column(name = "listing_id")
-	int listing;
+	@ManyToOne
+	@JoinColumn(name = "listing_id")
+	Listing listing;
 
 	@ManyToOne
 	@JoinColumn(name = "utility_id")

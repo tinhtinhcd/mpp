@@ -20,5 +20,4 @@ public class ListingDto {
 	private long description;
 	private int listType;
 	private int[] utilities;
-	private String emailAddress;
 }
