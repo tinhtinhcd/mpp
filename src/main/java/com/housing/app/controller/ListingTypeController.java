@@ -35,14 +35,14 @@ public class ListingTypeController {
 
 	private final ListingTypeMapper mapper = Mappers.getMapper(ListingTypeMapper.class);
 
-	@GetMapping(value = "/all")
+	@GetMapping()
 	public ResponseEntity<List<ListingTypeDto>> getAll() {
 		List<ListingType> listings = listingTypeService.findAll();
 		return new ResponseEntity<>(listings.stream().map(p -> mapper.toDto(p)).collect(Collectors.toList()),
 				HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping()
 	public ResponseEntity<ListingTypeDto> create(@Valid @RequestBody ListingTypeDto listingTypeDto,
 			BindingResult result) {
 		RequestUtil.validateRequest(result);

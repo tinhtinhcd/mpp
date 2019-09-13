@@ -9,8 +9,11 @@ import javax.validation.constraints.Size;
 @Data
 public class UserRegisterRequest {
 
-    @NotEmpty(message = "Name should not be empty")
-    private String name;
+    @NotEmpty(message = "firstName should not be empty")
+    private String firstName;
+
+    @NotEmpty(message = "lastName should not be empty")
+    private String lastName;
 
     @NotEmpty(message = "User name should not be empty")
     @Pattern(regexp="[A-Za-z0-9._%-+]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}", message = "Email is not valid")

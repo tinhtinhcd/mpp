@@ -6,3 +6,6 @@
  mvn clean package
  docker build -t api .
  docker-compose up
+ 
+# generate code coverage report 
+mvn clean test

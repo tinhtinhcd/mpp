@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.housing.app.dto.ListingDto;
+import com.housing.app.dto.ListingImageDto;
 import com.housing.app.dto.ListingSearchRequest;
 import com.housing.app.mapper.ListingMapper;
+import com.housing.app.model.ListingImage;
+import com.housing.app.service.S3Service;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,16 +29,17 @@ import com.housing.app.model.Listing;
 import com.housing.app.service.ListingService;
 import com.housing.app.service.UserService;
 import com.housing.app.util.RequestUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/listing", produces = { "application/json" })
 public class ListingController {
 
 	@Autowired
-	ListingService listingService;
+	private ListingService listingService;
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	private final ListingMapper mapper = Mappers.getMapper(ListingMapper.class);
 
@@ -64,5 +68,12 @@ public class ListingController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ListingDto> view(@PathVariable Long id){
 		return new ResponseEntity(mapper.toListingDto(listingService.findById(id)), HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/uploadImage")
+	public ResponseEntity<ListingImageDto> uploadImage(@RequestParam(value = "file") MultipartFile image,
+													   @RequestParam(name = "listingId") Long listingId) {
+		RequestUtil.validateImage(image.getContentType());
+		return new ResponseEntity(mapper.toListingImageDto(listingService.saveImage(listingId, image)), HttpStatus.OK);
 	}
 }

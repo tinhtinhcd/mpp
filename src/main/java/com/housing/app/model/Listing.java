@@ -23,7 +23,7 @@ public class Listing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created", nullable = false, updatable = false)
 	@CreatedDate
