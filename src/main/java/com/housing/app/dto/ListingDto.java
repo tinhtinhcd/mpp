@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class ListingDto {
     private String title;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private String address;
-    private double price;
+    private int price;
     private Date availableFrom;
     private String status;
     private int minimumLease;

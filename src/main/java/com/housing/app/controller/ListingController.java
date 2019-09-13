@@ -39,7 +39,7 @@ public class ListingController {
 
 	private final ListingMapper mapper = Mappers.getMapper(ListingMapper.class);
 
-	@GetMapping(value = "/all")
+	@GetMapping()
 	public ResponseEntity<List<ListingDto>> getAll() {
 		List<Listing> listings = listingService.findAll();
 		return new ResponseEntity<>(listings.stream().map(p -> mapper.toListingDto(p)).collect(Collectors.toList()),
