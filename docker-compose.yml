@@ -1,7 +1,11 @@
 version: "2.1"
 
 services:
-
+  web:
+    container_name: web
+    image: "docker171085/listing_web:1.0.0"
+    ports:
+      - 80:3000
   api:
     container_name: api
     image: "docker171085/listing_api"
