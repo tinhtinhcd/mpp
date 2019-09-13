@@ -12,9 +12,6 @@ import com.housing.app.model.Listing;
 @Repository
 public interface ListingRepository extends BaseRepository<Listing, Long> {
 
-
-	// and (:area == 0 or l.area <= :area )
-	
 	@Query(
             value = "select l.* from " +
                     "listing l " +
@@ -37,6 +34,7 @@ public interface ListingRepository extends BaseRepository<Listing, Long> {
             nativeQuery = true)
     Page<Listing> searchListing(@Param("lat") double lat, @Param("lng") double lng,
                                 @Param("radius") int radius, @Param("price") int price,
-                                @Param("area") int area,@Param("num_bed") int numBed,@Param("num_bath") int numBath,@Param("list_type") int listType,@Param("status") String status, Pageable pageable);
+                                @Param("area") int area,@Param("num_bed") int numBed,@Param("num_bath") int numBath,
+                                @Param("list_type") int listType,@Param("status") String status, Pageable pageable);
 }
 
