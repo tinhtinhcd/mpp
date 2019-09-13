@@ -36,7 +36,7 @@ public class Listing {
 	private double latitude;
 	private double longitude;
 	private String address;
-	private BigDecimal price;
+	private int price;
 	@Column(name = "available_from")
 	private Date availableFrom;
 	private String status;
