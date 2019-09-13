@@ -23,8 +23,7 @@ public class Listing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
-
+	private long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_created", nullable = false, updatable = false)
 	@CreatedDate
@@ -58,5 +57,7 @@ public class Listing {
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User user;
-
+	@OneToMany(mappedBy = "listing")
+	private List<ListingImage> listingImages;
+	private boolean isIncludeUtilities;
 }

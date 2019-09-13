@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UltilityDto {
-	private int listingId;
+	private long listingId;
 	private String description;
 }

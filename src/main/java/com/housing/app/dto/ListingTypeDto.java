@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ListingTypeDto {
-	int id;
+	long id;
 	String description;
 }

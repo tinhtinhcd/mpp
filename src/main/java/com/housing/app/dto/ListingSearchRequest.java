@@ -13,5 +13,4 @@ public class ListingSearchRequest {
     // paging attribute
     private int page;
     private int size;
-
 }
