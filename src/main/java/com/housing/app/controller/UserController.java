@@ -80,6 +80,8 @@ public class UserController {
 
 		// save to database user
 		User user = new User();
+		user.setFirstName(request.getFirstName());
+		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
 		user.setPassword(PasswordUtil.encrypt(request.getPassword()));
 		user.setActive(true);
