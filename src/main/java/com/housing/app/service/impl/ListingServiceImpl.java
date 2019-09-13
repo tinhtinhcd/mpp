@@ -1,6 +1,7 @@
 package com.housing.app.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.housing.app.dto.ListingSearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,17 @@ public class ListingServiceImpl implements ListingService {
 
 	@Override
 	public Listing create(Listing listing) {
-		listingRepository.saveAndFlush(listing);
-		return listing;
+		return listingRepository.saveAndFlush(listing);
 	}
 
 	public Page<Listing> search(ListingSearchRequest request) {
 		return listingRepository.searchListing(request.getLatitude(), request.getLongitude(), request.getRadius(),
 				request.getPrice(), request.getArea(),
 				PageRequest.of(request.getPage(), request.getSize(), Sort.Direction.DESC, "last_modified"));
+	}
+
+	@Override
+	public Listing findById(long id) {
+		return listingRepository.getOne(id);
 	}
 }

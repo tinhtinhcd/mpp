@@ -1,6 +1,5 @@
 package com.housing.app.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +25,6 @@ public class ListingUtilities {
 
 	@ManyToOne
 	@JoinColumn(name = "utility_id")
-	Ultility ultility;
+	Utility utility;
 
 }
