@@ -1,25 +1,42 @@
 package com.housing.app.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.Data;
 
 /**
  * The persistent class for the user database table.
  */
-@Data
+
 @Entity
 @Table(name = "listing", schema = "`listing`")
-public class Listing extends AuditModel {
+@Data
+public class Listing {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_created", nullable = false, updatable = false)
+	@CreatedDate
+	private Date createdAt;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "last_modified", nullable = false)
+	@LastModifiedDate
+	private Date updatedAt;
 	private String title;
-	private long latitude;
-	private long longitude;
+	private double latitude;
+	private double longitude;
 	private String address;
-	private double price;
+	private BigDecimal price;
 	@Column(name = "available_from")
 	private Date availableFrom;
 	private String status;
@@ -33,10 +50,12 @@ public class Listing extends AuditModel {
 	private String description;
 	@Column(name = "list_type")
 	private int listType;
-	@OneToMany(mappedBy = "id")
-	private List<Ultility> utilities;
+	@OneToMany(mappedBy = "listing")
+	private List<ListingUtilities> listingUtilities;
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User user;
+	@OneToMany(mappedBy = "listing")
+	private List<ListingImage> listingImages;
 
 }

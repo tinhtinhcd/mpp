@@ -3,26 +3,23 @@ package com.housing.app.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.housing.app.model.Ultility;
-import com.housing.app.model.User;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
 public class ListingDto {
-	private String title;
-	private long latitude;
-	private long longitude;
-	private String address;
-	private double price;
-	private Date availableFrom;
-	private String status;
-	private int minimumLease;
-	private int numBed;
-	private int numBath;
-	private int area;
-	private long description;
-	private int listType;
+    private String title;
+    private double latitude;
+    private double longitude;
+    private String address;
+    private int price;
+    private Date availableFrom;
+    private String status;
+    private int minimumLease;
+    private int numBed;
+    private int numBath;
+    private int area;
+    private String description;
+    private int listType;
+    private int[] utilities;
+    private List<ListingImageDto> images;
 }

@@ -5,12 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {
 
-  UserDetails loadUserByUsername(String userName);
+	UserDetails loadUserByUsername(String userName);
 
-  User findUserByEmail(String email);
+	User findUserByEmail(String email);
 
-  void checkUserExisted (String email);
+	void checkUserExisted(String email);
 
-  User saveUser(User user);
+	User saveUser(User user);
+
+	User findById(long id);
 
 }

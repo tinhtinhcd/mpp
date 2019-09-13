@@ -22,62 +22,56 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/user",
-        produces = {"application/json", "application/xml"})
+@RequestMapping(value = "/user", produces = { "application/json"})
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
 	@Autowired
-	private  AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	private JwtTokenProvider tokenProvider;
 
 	private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
+	/**
+	 * Login handler
+	 *
+	 * @param request
+	 * @param result
+	 * @return
+	 */
+	@PostMapping("/login")
+	public ResponseEntity<UserDto> login(@Valid @RequestBody LoginRequest request, BindingResult result) {
+
+		RequestUtil.validateRequest(result);
+		try {
+			authenticateUser(request.getUsername(), request.getPassword());
+			String accessToken = tokenProvider.generateToken(request.getUsername());
+			User currentUser = getCurrentUser(request.getUsername());
+			UserDto dto = userMapper.toUserDto(currentUser);
+			dto.setAccessToken(accessToken);
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (BadCredentialsException bce) {
+			throw new LoginFailedException();
+		}
+	}
 
 	/**
-     * Login handler
-     *
-     * @param request
-     * @param result
-     * @return
-     */
-    @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody LoginRequest request,
-                                BindingResult result) {
-
-        RequestUtil.validateRequest(result);
-        try {
-            authenticateUser(request.getUsername(), request.getPassword());
-            String accessToken = tokenProvider.generateToken(request.getUsername());
-            User currentUser = getCurrentUser(request.getUsername());
-            userService.saveUser(currentUser);
-            UserDto dto = userMapper.toUserDto(currentUser);
-            dto.setAccessToken(accessToken);
-            return new ResponseEntity(dto, HttpStatus.OK);
-
-        } catch (BadCredentialsException bce) {
-            throw new LoginFailedException();
-        }
-    }
-
-	/**
-	 * Register user as Tenant
+	 * User registration
 	 *
 	 * @param request
 	 * @param result
 	 * @return
 	 */
 	@PostMapping("/register")
-	public ResponseEntity registerTenant(@Valid @RequestBody UserRegisterRequest request,
-										 BindingResult result){
+	public ResponseEntity<UserDto> registerTenant(@Valid @RequestBody UserRegisterRequest request,
+			BindingResult result) {
 
 		// validate request
 		RequestUtil.validateRequest(result);
@@ -95,9 +89,8 @@ public class UserController {
 		String accessToken = tokenProvider.generateToken(request.getEmail());
 		UserDto userDto = userMapper.toUserDto(user);
 		userDto.setAccessToken(accessToken);
-		return new ResponseEntity(userDto, HttpStatus.OK);
+		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
-
 
 	// Non API function
 	private void authenticateUser(String username, String password) {
