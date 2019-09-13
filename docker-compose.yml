@@ -1,23 +1,26 @@
 version: "2.1"
 
 services:
+
   api:
     container_name: api
-    image: "docker171085/api"
+    image: "docker171085/listing_api"
     mem_limit: 1024m
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=local
-      - AWS_REGION=local
-      - ENVIRONMENT=local
-      - AUTH_ENABLED=false
+      - SPRING_PROFILES_ACTIVE=dev
+      - AWS_ACCESS_KEY=AKIA2ISJLKP2S65IIKH7
+      - AWS_SECRET_KEY=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
+      - AWS_REGION=us-east-1
+      - BUCKET=mahalisting
+      - IMAGE_FOLDER=images
   postgres:
-    container_name: postgres
+    container_name: pgdb
     image: postgres:9.6-alpine
     environment:
       - 'POSTGRES_ROOT_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_PASSWORD=postgres'
     ports:
-      - "5432:5432"
+      - "54321:5432"

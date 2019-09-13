@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 public interface ListingService {
 	List<Listing> findAll();
 	Listing findById(long id);
+	public Listing create(Listing listing);
 	Page<Listing> search(ListingSearchRequest request);
 
 }

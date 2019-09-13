@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ListingImageDto {
-    private String url ;
     private long id;
+    private String url ;
 }

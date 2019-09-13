@@ -3,11 +3,9 @@ package com.housing.app.dto;
 import java.util.Date;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ListingDto {
     private String title;
     private long latitude;
@@ -22,5 +20,6 @@ public class ListingDto {
     private int area;
     private String description;
     private int listType;
+    private int[] utilities;
     private List<ListingImageDto> images;
 }
