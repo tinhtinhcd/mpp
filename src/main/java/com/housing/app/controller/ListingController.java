@@ -11,6 +11,7 @@ import com.housing.app.dto.*;
 import com.housing.app.mapper.ListingMapper;
 import com.housing.app.mapper.ListingTypeMapper;
 import com.housing.app.model.ListingType;
+import com.housing.app.model.User;
 import com.housing.app.repo.ListingTypeRepository;
 import com.housing.app.service.ListingTypeService;
 import org.mapstruct.factory.Mappers;
@@ -53,9 +54,10 @@ public class ListingController {
     private final ListingTypeMapper listingTypeMapper = Mappers.getMapper(ListingTypeMapper.class);
 
 
-    @GetMapping()
-    public ResponseEntity<List<ListingDto>> getAll() {
-        List<Listing> listings = listingService.findAll();
+    @GetMapping("/mylistings")
+    public ResponseEntity<List<ListingDto>> getAllMyListing(Principal principal) {
+        User currentUser = getCurrentUser(principal.getName());
+        List<Listing> listings = currentUser.getListings();
         return new ResponseEntity<>(listings.stream().map(p -> mapper.toListingDto(p)).collect(Collectors.toList()),
                 HttpStatus.OK);
     }
@@ -110,4 +112,9 @@ public class ListingController {
         return new ResponseEntity<>(listings.stream().map(p -> listingTypeMapper.toDto(p)).collect(Collectors.toList()),
                 HttpStatus.OK);
     }
+
+    private User getCurrentUser(String userName) {
+        return userService.findUserByEmail(userName);
+    }
+
 }
