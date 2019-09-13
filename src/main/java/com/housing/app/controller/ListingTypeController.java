@@ -43,26 +43,12 @@ public class ListingTypeController {
 	}
 
 	@PostMapping()
-	public ResponseEntity<ListingTypeDto> create(@Valid @RequestBody ListingTypeDto listingTypeDto,
-			BindingResult result) {
+	public ResponseEntity<ListingType> create(@Valid @RequestBody String type, BindingResult result) {
 		RequestUtil.validateRequest(result);
-		ListingType listingType = mapper.toPersistent(listingTypeDto);
+		ListingType listingType = new ListingType();
+		listingType.setDescription(type);
 		listingTypeService.save(listingType);
-		return new ResponseEntity<>(listingTypeDto, HttpStatus.OK);
+		return new ResponseEntity<>(listingType, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/createList")
-	public ResponseEntity<List<ListingType>> testCreateList(@Valid @RequestBody List<String> listingTypeDto,
-			BindingResult result) {
-		RequestUtil.validateRequest(result);
-
-		List<ListingType> listingTypes = listingTypeDto.stream().map(s -> {
-			ListingType listing = new ListingType();
-			listing.setDescription(s);
-			return listing;
-		}).collect(Collectors.toList());
-
-		listingTypeService.saveAll(listingTypes);
-		return new ResponseEntity<>(listingTypes, HttpStatus.OK);
-	}
 }
