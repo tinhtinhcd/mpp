@@ -12,6 +12,7 @@ import com.housing.app.mapper.ListingMapper;
 import com.housing.app.mapper.ListingTypeMapper;
 import com.housing.app.model.ListingType;
 import com.housing.app.model.Utility;
+import com.housing.app.model.User;
 import com.housing.app.repo.ListingTypeRepository;
 import com.housing.app.service.ListingTypeService;
 import org.mapstruct.factory.Mappers;
@@ -58,6 +59,14 @@ public class ListingController {
 				HttpStatus.OK);
 	}
 
+	@GetMapping("/mylistings")
+	public ResponseEntity<List<ListingDto>> getAllMyListing(Principal principal) {
+		User currentUser = getCurrentUser(principal.getName());
+		List<Listing> listings = currentUser.getListings();
+		return new ResponseEntity<>(listings.stream().map(p -> mapper.toListingDto(p)).collect(Collectors.toList()),
+				HttpStatus.OK);
+	}
+
 	@PostMapping
 	public ResponseEntity<Listing> create(@Valid @RequestBody ListingRequest request, Principal principal) {
 		Listing listing = mapper.toPersistent(request);
@@ -97,12 +106,16 @@ public class ListingController {
 		return new ResponseEntity<>(mapper.toListingDto(listingService.update(id, request)), HttpStatus.OK);
 	}
 
+	@GetMapping(value = "listUtilities")
+	public ResponseEntity<List<Utility>> getAllUtitlites() {
+		return new ResponseEntity<>(listingService.getUtitlities(), HttpStatus.OK);
+	}
+
 	@PostMapping(value = "/uploadImage")
 	public ResponseEntity<ListingImageDto> uploadImage(@RequestParam(value = "file") MultipartFile image,
 			@RequestParam(name = "listingId") Long listingId) {
 		RequestUtil.validateImage(image.getContentType());
-		return new ResponseEntity<>(mapper.toListingImageDto(listingService.saveImage(listingId, image)),
-				HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toListingImageDto(listingService.saveImage(listingId, image)), HttpStatus.OK);
 	}
 
 	@GetMapping("/listTypes")
@@ -112,8 +125,8 @@ public class ListingController {
 				HttpStatus.OK);
 	}
 
-	@GetMapping(value = "listUtilities")
-	public ResponseEntity<List<Utility>> getAllUtitlites() {
-		return new ResponseEntity<>(listingService.getUtitlities(), HttpStatus.OK);
+	private User getCurrentUser(String userName) {
+		return userService.findUserByEmail(userName);
 	}
+
 }

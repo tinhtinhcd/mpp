@@ -59,7 +59,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/swagger-resources",
             "/health",
-            "/search"
+            "/search",
+            "/listing/listTypes"
     );
 
     @Override
