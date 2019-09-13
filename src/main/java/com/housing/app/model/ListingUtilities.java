@@ -26,6 +26,6 @@ public class ListingUtilities {
 
 	@ManyToOne
 	@JoinColumn(name = "utility_id")
-	Ultility ultility;
+	Utility utility;
 
 }

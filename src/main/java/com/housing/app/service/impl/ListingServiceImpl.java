@@ -31,8 +31,7 @@ public class ListingServiceImpl implements ListingService {
 
 	@Override
 	public Listing create(Listing listing) {
-		listingRepository.saveAndFlush(listing);
-		return listing;
+		return listingRepository.saveAndFlush(listing);
 	}
 
 	public Page<Listing> search(ListingSearchRequest request) {
