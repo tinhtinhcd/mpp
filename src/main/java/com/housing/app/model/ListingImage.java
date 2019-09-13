@@ -10,14 +10,13 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class ListingImage {
-    
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "listing_id")
-    private Listing listing;
+	@ManyToOne
+	@JoinColumn(name = "listing_id")
+	private Listing listing;
 
-    private String url;
+	private String url;
 }

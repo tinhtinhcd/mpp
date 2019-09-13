@@ -19,42 +19,41 @@ import java.io.IOException;
 @Service
 public class S3ServiceImpl implements S3Service {
 
-	private static final Logger logger = LoggerFactory.getLogger("application-info");
 
-	@Autowired
-	private AmazonS3 s3Client;
+    private final static Logger logger = LoggerFactory.getLogger("application-info");
 
-	@Autowired
-	private S3Config s3Config;
+    @Autowired
+    private AmazonS3 s3Client;
 
-	@Override
-	public String uploadFile(String fileName, MultipartFile file) {
+    @Autowired
+    private S3Config s3Config;
 
-		ObjectMetadata metadata = new ObjectMetadata();
-		metadata.setContentType(file.getContentType());
-		metadata.setContentLength(file.getSize());
-		try {
-			s3Client.putObject(new PutObjectRequest(s3Config.getBucket(), fileName, file.getInputStream(), metadata)
-					.withCannedAcl(CannedAccessControlList.PublicRead));
-			logger.info("===================== Upload File - Done! =====================");
-		} catch (AmazonServiceException ase) {
-			logger.error("Caught an AmazonServiceException from PUT requests, rejected reasons:");
-		} catch (AmazonClientException ace) {
-			logger.error("Caught an AmazonClientException: ");
-			logger.error("Error Message: " + ace.getMessage());
-		} catch (IOException e) {
-			logger.error("File exception: ");
-			logger.error("Error Message: " + e.getMessage());
-		}
-		return returnImageUrl(fileName);
-	}
+    @Override
+    public String uploadFile(String fileName, MultipartFile file) {
 
-	private String returnImageUrl(String fileName) {
-		StringBuilder fileUrl = new StringBuilder("https://s3-");
-		fileUrl.append(s3Config.getRegion());
-		fileUrl.append(".amazonaws.com/");
-		fileUrl.append(s3Config.getBucket() + "/" + s3Config.getImageFolder() + "/");
-		fileUrl.append(fileName);
-		return fileUrl.toString();
-	}
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getSize());
+        try {
+            s3Client.putObject(new PutObjectRequest(s3Config.getBucket(), s3Config.getImageFolder()+"/"+fileName, file.getInputStream(), metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+            logger.info("===================== Upload File - Done! =====================");
+        } catch (AmazonServiceException ase) {
+            logger.error("Caught an AmazonServiceException from PUT requests, rejected reasons:");
+        } catch (AmazonClientException ace) {
+            logger.error("Caught an AmazonClientException: ");
+            logger.error("Error Message: " + ace.getMessage());
+        } catch (IOException e) {
+            logger.error("File exception: ");
+            logger.error("Error Message: " + e.getMessage());
+        }
+        return returnImageUrl(fileName);
+    }
+
+    private String returnImageUrl(String fileName) {
+        StringBuilder fileUrl = new StringBuilder("https://");
+        fileUrl.append(s3Config.getBucket());
+        fileUrl.append(".s3.amazonaws.com/");
+        fileUrl.append(s3Config.getImageFolder() + "/" + fileName);
+        return fileUrl.toString();
+    }
 }

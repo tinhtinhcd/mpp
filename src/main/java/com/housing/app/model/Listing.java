@@ -28,15 +28,13 @@ public class Listing {
 	@Column(name = "date_created", nullable = false, updatable = false)
 	@CreatedDate
 	private Date createdAt;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "last_modified", nullable = false)
 	@LastModifiedDate
 	private Date updatedAt;
-
 	private String title;
-	private long latitude;
-	private long longitude;
+	private double latitude;
+	private double longitude;
 	private String address;
 	private BigDecimal price;
 	@Column(name = "available_from")
@@ -52,7 +50,7 @@ public class Listing {
 	private String description;
 	@Column(name = "list_type")
 	private int listType;
-	@OneToMany(mappedBy = "ultility")
+	@OneToMany(mappedBy = "listing")
 	private List<ListingUtilities> listingUtilities;
 	@ManyToOne
 	@JoinColumn(name = "created_by")

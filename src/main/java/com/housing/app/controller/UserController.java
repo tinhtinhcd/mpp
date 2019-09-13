@@ -3,11 +3,13 @@ package com.housing.app.controller;
 import com.housing.app.dto.LoginRequest;
 import com.housing.app.dto.UserDto;
 import com.housing.app.dto.UserRegisterRequest;
+import com.housing.app.dto.UserUpdateRequest;
 import com.housing.app.exception.LoginFailedException;
 import com.housing.app.interceptor.JwtTokenProvider;
 import com.housing.app.mapper.UserMapper;
 import com.housing.app.model.User;
 import com.housing.app.service.UserService;
+import com.housing.app.util.LocaDateUtil;
 import com.housing.app.util.PasswordUtil;
 import com.housing.app.util.RequestUtil;
 import org.mapstruct.factory.Mappers;
@@ -23,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping(value = "/user", produces = { "application/json"})
@@ -70,7 +73,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/register")
-	public ResponseEntity<UserDto> registerTenant(@Valid @RequestBody UserRegisterRequest request,
+	public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterRequest request,
 			BindingResult result) {
 
 		// validate request
@@ -80,6 +83,8 @@ public class UserController {
 
 		// save to database user
 		User user = new User();
+		user.setFirstName(request.getFirstName());
+		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
 		user.setPassword(PasswordUtil.encrypt(request.getPassword()));
 		user.setActive(true);
@@ -91,6 +96,21 @@ public class UserController {
 		userDto.setAccessToken(accessToken);
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
+
+	@PostMapping("/update")
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserUpdateRequest request, Principal principal,
+											  BindingResult result){
+		RequestUtil.validateRequest(result);
+		User currentUser = getCurrentUser(principal.getName());
+		currentUser.setFirstName(request.getFirstName());
+		currentUser.setLastName(request.getLastName());
+		currentUser.setPhone(request.getPhone());
+		currentUser.setDob(LocaDateUtil.convertStringToDate(request.getDob()));
+		userService.saveUser(currentUser);
+		return new ResponseEntity<UserDto>(userMapper.toUserDto(currentUser), HttpStatus.OK);
+	}
+
+
 
 	// Non API function
 	private void authenticateUser(String username, String password) {

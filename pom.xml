@@ -164,6 +164,42 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>/com/housing/app/model/**</exclude>
+                        <exclude>/com/housing/app/repo/**</exclude>
+                        <exclude>/com/housing/app/mapper/**</exclude>
+                        <exclude>/com/housing/app/dto/**</exclude>
+                        <exclude>/com/housing/app/util/**</exclude>
+                        <exclude>/com/housing/app/common/**</exclude>
+                        <exclude>/com/housing/app/exception/**</exclude>
+                        <exclude>/com/housing/app/interceptor/**</exclude>
+                        <exclude>/com/housing/app/Main.class</exclude>
+                        <exclude>/com/housing/app/S3Config.class</exclude>
+                        <exclude>/com/housing/app/SwaggerConfig.class</exclude>
+                        <exclude>/com/housing/app/WebSecurity.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

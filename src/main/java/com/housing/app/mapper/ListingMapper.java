@@ -10,6 +10,8 @@ import com.housing.app.dto.ListingDto;
 import com.housing.app.dto.ListingRequest;
 import com.housing.app.dto.ListingResultDto;
 import com.housing.app.model.Listing;
+import com.housing.app.dto.ListingImageDto;
+import com.housing.app.model.ListingImage;
 import org.springframework.data.domain.Page;
 
 @Mapper
@@ -18,7 +20,7 @@ public interface ListingMapper {
 	@Mapping(source = "listingImages", target = "images")
 	ListingDto toListingDto(Listing listing);
 
-	Listing toPersistent(ListingDto listingDto);
+	ListingImageDto toListingImageDto(ListingImage image);
 
 	default ListingResultDto toListingResultDto(Page<Listing> listingPage) {
 		ListingResultDto listingResultDto = new ListingResultDto();

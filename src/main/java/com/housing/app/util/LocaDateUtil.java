@@ -1,5 +1,6 @@
 package com.housing.app.util;
 
+
 import com.housing.app.common.AppConstant;
 
 import java.sql.Timestamp;
@@ -22,18 +23,6 @@ public class LocaDateUtil {
   public static Timestamp getCurrentTime(){
     Date now = new Date();
     return new Timestamp(now.getTime());
-  }
-
-  public static Date addDays(Date date, int days)
-  {
-    if (date == null) {
-      throw new IllegalArgumentException("The date must not be null");
-    }else {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(date);
-      cal.add(Calendar.DATE, days); //minus number would decrement the days
-      return cal.getTime();
-    }
   }
 
   public static String convertDateToString(Date date) {
