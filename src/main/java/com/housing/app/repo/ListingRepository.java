@@ -13,18 +13,26 @@ public interface ListingRepository extends BaseRepository<Listing, Long> {
 
 
     @Query(
-            value = "select l.* from \n" +
+            value = "select l.* from " +
                     "listing l " +
-                    "where earth_distance(ll_to_earth(l.latitude, l.longitude ) , ll_to_earth(:lat, :lng) ) < :radius \n" +
-                    "and l.price <= :price \n" +
-                    "and l.area <= :area",
-            countQuery = "select count(*) from \n" +
+                    "where earth_distance(ll_to_earth(l.latitude, l.longitude ) , ll_to_earth(:lat, :lng) ) < :radius " +
+                    "and l.price <= :price " +
+                    "and l.area <= :area" +
+                    "and l.numBed <= :numBed"+
+                    "and l.numBath <= :numBath"+
+                    "and l.listType == :listType"+
+                    "and l.status == :status",
+            countQuery = "select count(*) from " +
                     "listing l " +
-                    "where earth_distance(ll_to_earth(l.latitude, l.longitude ) , ll_to_earth(:lat, :lng) ) < :radius \n" +
-                    "and l.price <= :price \n" +
-                    "and l.area <= :area",
+                    "where earth_distance(ll_to_earth(l.latitude, l.longitude ) , ll_to_earth(:lat, :lng) ) < :radius " +
+                    "and l.price <= :price " +
+                    "and l.area <= :area" +
+                    "and l.numBed <= :numBed"+
+                    "and l.numBath <= :numBath"+
+                    "and l.listType == :listType"+
+                    "and l.status == :status",
             nativeQuery = true)
     Page<Listing> searchListing(@Param("lat") double lat, @Param("lng") double lng,
                                 @Param("radius") int radius, @Param("price") int price,
-                                @Param("area") int area, Pageable pageable);
+                                @Param("area") int area,@Param("numBed") int numBed,@Param("numBath") int numBath,@Param("listType") int listType,@Param("status") String status, Pageable pageable);
 }

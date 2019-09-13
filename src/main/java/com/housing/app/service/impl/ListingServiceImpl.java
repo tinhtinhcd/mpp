@@ -28,7 +28,7 @@ public class ListingServiceImpl implements ListingService {
 	@Override
 	public Page<Listing> search(ListingSearchRequest request) {
 		return listingRepository.searchListing(request.getLatitude(), request.getLongitude(), request.getRadius(),
-				request.getPrice(), request.getArea(),
+				request.getPrice(), request.getArea(),request.getNumBed(),request.getNumBath(),request.getListType(),request.getStatus(),
 				PageRequest.of(request.getPage(), request.getSize(), Sort.Direction.DESC, "last_modified"));
 	}
 }
