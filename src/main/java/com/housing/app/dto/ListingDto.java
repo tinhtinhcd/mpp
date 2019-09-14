@@ -1,5 +1,6 @@
 package com.housing.app.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ListingDto {
     private double latitude;
     private double longitude;
     private String address;
-    private int price;
+    private BigDecimal price;
     private Date availableFrom;
     private String status;
     private int minimumLease;
@@ -20,6 +21,7 @@ public class ListingDto {
     private int area;
     private String description;
     private int listType;
-    private int[] utilities;
+    private List<ListingUtilitiesDto> listingUtilities;
     private List<ListingImageDto> images;
+    private boolean isIncludeUtilities;
 }

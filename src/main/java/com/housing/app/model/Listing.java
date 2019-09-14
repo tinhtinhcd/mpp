@@ -36,7 +36,7 @@ public class Listing {
 	private double latitude;
 	private double longitude;
 	private String address;
-	private int price;
+	private BigDecimal price;
 	@Column(name = "available_from")
 	private Date availableFrom;
 	private String status;
@@ -57,5 +57,5 @@ public class Listing {
 	private User user;
 	@OneToMany(mappedBy = "listing")
 	private List<ListingImage> listingImages;
-
+	private boolean isIncludeUtilities;
 }

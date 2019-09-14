@@ -1,5 +1,7 @@
 package com.housing.app.dto;
 
+import java.math.BigDecimal;
+
 import lombok.Data;
 
 @Data
@@ -7,7 +9,7 @@ public class ListingSearchRequest {
 
     private double latitude;
     private double longitude;
-    private int price;
+    private BigDecimal price;
     private int area;
     private int radius;
     private int numBed;

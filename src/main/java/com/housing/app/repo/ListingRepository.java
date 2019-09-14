@@ -1,6 +1,8 @@
 
 package com.housing.app.repo;
 
+import java.math.BigDecimal;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -33,7 +35,7 @@ public interface ListingRepository extends BaseRepository<Listing, Long> {
                     "and (:status IS NULL or l.status = :status) ",
             nativeQuery = true)
     Page<Listing> searchListing(@Param("lat") double lat, @Param("lng") double lng,
-                                @Param("radius") int radius, @Param("price") int price,
+                                @Param("radius") int radius, @Param("price") BigDecimal price,
                                 @Param("area") int area,@Param("num_bed") int numBed,@Param("num_bath") int numBath,
                                 @Param("list_type") int listType,@Param("status") String status, Pageable pageable);
 }

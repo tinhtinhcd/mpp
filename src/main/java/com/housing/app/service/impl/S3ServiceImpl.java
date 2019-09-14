@@ -19,6 +19,7 @@ import java.io.IOException;
 @Service
 public class S3ServiceImpl implements S3Service {
 
+
     private final static Logger logger = LoggerFactory.getLogger("application-info");
 
     @Autowired

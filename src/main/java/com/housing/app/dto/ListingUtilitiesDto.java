@@ -3,7 +3,6 @@ package com.housing.app.dto;
 import lombok.Data;
 
 @Data
-public class ListingTypeDto {
+public class ListingUtilitiesDto {
 	long id;
-	String description;
 }
