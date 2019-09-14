@@ -114,7 +114,6 @@ public class ListingServiceImpl implements ListingService {
 			listing.setListingUtilities(listingUtilities);
 			listing.setId(id);
 			listing.setUser(createBy);
-			listing.setUpdatedAt(Calendar.getInstance().getTime());
 			listingRepository.saveAndFlush(listing);
 
 			return listing;

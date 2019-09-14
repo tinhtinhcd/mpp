@@ -106,7 +106,7 @@ public class ListingController {
 		return new ResponseEntity<>(mapper.toListingDto(listingService.update(id, request)), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "listUtilities")
+	@GetMapping(value = "/listUtilities")
 	public ResponseEntity<List<Utility>> getAllUtitlites() {
 		return new ResponseEntity<>(listingService.getUtitlities(), HttpStatus.OK);
 	}
