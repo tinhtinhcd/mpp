@@ -59,11 +59,6 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public List<Listing> findAll() {
-        return listingRepository.findAll();
-    }
-
-    @Override
     public Listing create(ListingRequest listingRequest, Principal principal) {
         Listing listing = mapper.toPersistent(listingRequest);
         listing.setUser(userService.findUserByEmail(principal.getName()));
@@ -88,6 +83,15 @@ public class ListingServiceImpl implements ListingService {
             throw new EntityNotFoundException();
         }
         return listingOptional.get();
+    }
+
+    @Override
+    public void deleteListing(long id) {
+        Optional<Listing> listingOptional = listingRepository.findById(id);
+        if (!listingOptional.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+        listingRepository.delete(listingOptional.get());
     }
 
     @Override
@@ -130,5 +134,10 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public List<Utility> getUtitlities() {
         return utilitiesRepository.findAll();
+    }
+
+    @Override
+    public List<Listing> findLatestListing(int limit) {
+        return listingRepository.findLatestListing(limit);
     }
 }

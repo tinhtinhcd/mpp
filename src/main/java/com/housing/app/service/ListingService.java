@@ -16,9 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ListingService {
 
-	List<Listing> findAll();
+	List<Listing> findLatestListing(int limit);
 
 	Listing findById(long id);
+
+	void deleteListing(long id);
 
 	Listing create(ListingRequest listingRequest, Principal principal);
 
@@ -31,4 +33,6 @@ public interface ListingService {
 	ListingImage saveImage(Long listingId, MultipartFile image);
 	
 	List<Utility> getUtitlities();
+
+
 }

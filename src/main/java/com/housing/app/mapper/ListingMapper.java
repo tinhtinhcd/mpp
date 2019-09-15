@@ -20,6 +20,8 @@ public interface ListingMapper {
 	@Mapping(source = "listingImages", target = "images")
 	ListingDto toListingDto(Listing listing);
 
+	List<ListingDto> toListingDtos(List<Listing> listings);
+
 	ListingImageDto toListingImageDto(ListingImage image);
 
 	default ListingResultDto toListingResultDto(Page<Listing> listingPage) {

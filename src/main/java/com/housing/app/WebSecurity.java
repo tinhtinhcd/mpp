@@ -48,7 +48,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final List<String> postRequests = Arrays.asList(
             "/user/login",
-            "/user/register"
+            "/user/register",
+            "/listing/search"
     );
 
     private final List<String> getRequests = Arrays.asList(
