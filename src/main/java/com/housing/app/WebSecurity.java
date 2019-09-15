@@ -60,7 +60,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             "/swagger-resources",
             "/health",
             "/search",
-            "/listing/listTypes"
+            "/listing/similarListing",
+            "/listing/listTypes",
+            "/listing/listUtilities",
+            "/listing/*"
     );
 
     @Override

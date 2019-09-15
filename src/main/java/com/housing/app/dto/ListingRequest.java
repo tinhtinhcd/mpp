@@ -1,11 +1,7 @@
 package com.housing.app.dto;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
 import javax.validation.constraints.NotEmpty;
-
 import lombok.Data;
 
 @Data
@@ -17,9 +13,8 @@ public class ListingRequest {
 	private double longitude;
 	@NotEmpty(message = "address should not be empty")
 	private String address;
-	private BigDecimal price;
+	private int price;
 	private Date availableFrom;
-	private String status;
 	private int minimumLease;
 	private int numBed;
 	private int numBath;
@@ -27,6 +22,5 @@ public class ListingRequest {
 	private String description;
 	private int listType;
 	private long[] utilities;
-	private List<String> images;
 	private boolean isIncludeUtilities;
 }

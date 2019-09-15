@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.housing.app.model.*;
 import org.mapstruct.factory.Mappers;
 
 import com.housing.app.dto.ListingSearchRequest;
 import com.housing.app.exception.EntityNotFoundException;
-import com.housing.app.model.ListingImage;
 import com.housing.app.repo.ListingImageRepository;
 import com.housing.app.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,6 @@ import org.springframework.stereotype.Service;
 
 import com.housing.app.dto.ListingRequest;
 import com.housing.app.mapper.ListingMapper;
-import com.housing.app.model.Listing;
-import com.housing.app.model.ListingUtilities;
-import com.housing.app.model.User;
-import com.housing.app.model.Utility;
 import com.housing.app.repo.ListingRepository;
 import com.housing.app.repo.ListingUtilityRepository;
 import com.housing.app.repo.UtilitiesRepository;
@@ -72,23 +68,18 @@ public class ListingServiceImpl implements ListingService {
 
 	@Override
 	public Listing create(ListingRequest listingRequest, Principal principal) {
-
 		Listing listing = mapper.toPersistent(listingRequest);
 		listing.setUser(userService.findUserByEmail(principal.getName()));
-		listingRepository.saveAndFlush(listing);
-
 		List<ListingUtilities> listingUtilities = createListingUtilities(listingRequest, listing);
-
 		listing.setListingUtilities(listingUtilities);
+		listing.setStatus(ListingStatus.PENDING);
 		listingRepository.saveAndFlush(listing);
-
 		return listing;
-
 	}
 
 	public Page<Listing> search(ListingSearchRequest request) {
 		return listingRepository.searchListing(request.getLatitude(), request.getLongitude(), request.getRadius()*1000,
-				request.getPrice(), request.getArea(),request.getNumBed(),request.getNumBath(),request.getListType(),request.getStatus(),
+				request.getPrice(), request.getArea(),request.getNumBed(),request.getNumBath(),request.getListType(),
 				PageRequest.of(request.getPage(), request.getSize(), Sort.Direction.DESC, "last_modified"));
 	}
 
@@ -106,7 +97,6 @@ public class ListingServiceImpl implements ListingService {
 		} else {
 			Listing listing = listingOptional.get();
 			User createBy = listing.getUser();
-
 			List<ListingUtilities> listingUtilities = listing.getListingUtilities();
 			listingUtilityRepository.deleteAll(listingUtilities);
 			listingUtilities = createListingUtilities(request, listing);
@@ -115,20 +105,14 @@ public class ListingServiceImpl implements ListingService {
 			listing.setId(id);
 			listing.setUser(createBy);
 			listingRepository.saveAndFlush(listing);
-
 			return listing;
 		}
 	}
 
 	private List<ListingUtilities> createListingUtilities(ListingRequest listingRequest, Listing listing) {
-		
 		List<ListingUtilities> listingUtilities = Arrays.stream(listingRequest.getUtilities()).boxed()
 				.collect(Collectors.toList()).stream()
 				.map(u -> new ListingUtilities(listing, utilitiesRepository.getOne(u))).collect(Collectors.toList());
-
-		listingUtilityRepository.saveAll(listingUtilities);
-		listingUtilityRepository.flush();
-		
 		return listingUtilities;
 	}
 

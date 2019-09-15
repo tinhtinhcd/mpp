@@ -69,9 +69,7 @@ public class ListingController {
 
 	@PostMapping
 	public ResponseEntity<Listing> create(@Valid @RequestBody ListingRequest request, Principal principal) {
-		Listing listing = mapper.toPersistent(request);
-		listing.setUser(userService.findUserByEmail(principal.getName()));
-		return new ResponseEntity<>(listingService.create(request, principal), HttpStatus.OK);
+		return new ResponseEntity(mapper.toListingDto(listingService.create(request, principal)), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/search")

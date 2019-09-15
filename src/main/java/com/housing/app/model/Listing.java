@@ -36,10 +36,11 @@ public class Listing {
 	private double latitude;
 	private double longitude;
 	private String address;
-	private BigDecimal price;
+	private int price;
 	@Column(name = "available_from")
 	private Date availableFrom;
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private ListingStatus status;
 	@Column(name = "minimum_lease")
 	private int minimumLease;
 	@Column(name = "num_bed")
@@ -50,7 +51,7 @@ public class Listing {
 	private String description;
 	@Column(name = "list_type")
 	private int listType;
-	@OneToMany(mappedBy = "listing")
+	@OneToMany(mappedBy = "listing", cascade = CascadeType.PERSIST)
 	private List<ListingUtilities> listingUtilities;
 	@ManyToOne
 	@JoinColumn(name = "created_by")

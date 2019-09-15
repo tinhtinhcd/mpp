@@ -8,5 +8,4 @@ public class AppConstant {
   public static final String[] SUPPORT_IMAGE_EXTENSIONS = {"image/jpeg", "image/png", "image/gif"};
   public static final int DEFAULT_RADIUS = 10 ; // ten miles
   public static final int DEFAULT_PAGE_SIZE = 10 ; // ten miles
-
 }
