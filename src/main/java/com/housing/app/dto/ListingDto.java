@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class ListingDto {
+    private long id;
     private String title;
     private double latitude;
     private double longitude;
@@ -24,4 +25,6 @@ public class ListingDto {
     private List<ListingUtilitiesDto> listingUtilities;
     private List<ListingImageDto> images;
     private boolean isIncludeUtilities;
+    private boolean furnished;
+
 }

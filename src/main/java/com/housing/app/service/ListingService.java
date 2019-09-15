@@ -16,17 +16,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ListingService {
 
-	public List<Listing> findAll();
+	List<Listing> findAll();
 
-	public Listing findById(long id);
+	Listing findById(long id);
 
-	public Listing create(ListingRequest listingRequest, Principal principal);
+	Listing create(ListingRequest listingRequest, Principal principal);
 
-	public Page<Listing> search(ListingSearchRequest request);
+	Page<Listing> search(ListingSearchRequest request);
 
-	public Listing update(Long id, @Valid ListingRequest request);
+	Listing update(Long id, @Valid ListingRequest request);
 
-	public ListingImage saveImage(Long listingId, MultipartFile image);
+	Listing update(Listing listing);
+
+	ListingImage saveImage(Long listingId, MultipartFile image);
 	
-	public List<Utility> getUtitlities();
+	List<Utility> getUtitlities();
 }

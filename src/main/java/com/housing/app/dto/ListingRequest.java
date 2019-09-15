@@ -1,6 +1,5 @@
 package com.housing.app.dto;
 
-import java.util.Date;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -14,13 +13,15 @@ public class ListingRequest {
 	@NotEmpty(message = "address should not be empty")
 	private String address;
 	private int price;
-	private Date availableFrom;
+	private String availableFrom;
 	private int minimumLease;
 	private int numBed;
 	private int numBath;
 	private int area;
+	@NotEmpty(message = "description should not be empty")
 	private String description;
 	private int listType;
 	private long[] utilities;
 	private boolean isIncludeUtilities;
+	private boolean furnished;
 }

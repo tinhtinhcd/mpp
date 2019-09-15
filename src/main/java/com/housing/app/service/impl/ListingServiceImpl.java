@@ -1,10 +1,7 @@
 package com.housing.app.service.impl;
 
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -34,100 +31,104 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ListingServiceImpl implements ListingService {
 
-	private final ListingMapper mapper = Mappers.getMapper(ListingMapper.class);
+    private final ListingMapper mapper = Mappers.getMapper(ListingMapper.class);
 
-	@Autowired
-	private final ListingRepository listingRepository;
+    @Autowired
+    private final ListingRepository listingRepository;
 
-	private final ListingImageRepository listingImageRepository;
+    private final ListingImageRepository listingImageRepository;
 
-	private final S3Service s3Service;
+    private final S3Service s3Service;
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@Autowired
-	ListingUtilityRepository listingUtilityRepository;
+    @Autowired
+    ListingUtilityRepository listingUtilityRepository;
 
-	@Autowired
-	UtilitiesRepository utilitiesRepository;
+    @Autowired
+    UtilitiesRepository utilitiesRepository;
 
-	@Autowired
-	public ListingServiceImpl(ListingRepository listingRepository,
-							  ListingImageRepository listingImageRepository,
-							  S3Service s3Service) {
-		this.listingRepository = listingRepository;
-		this.listingImageRepository = listingImageRepository;
-		this.s3Service = s3Service;
-	}
+    @Autowired
+    public ListingServiceImpl(ListingRepository listingRepository,
+                              ListingImageRepository listingImageRepository,
+                              S3Service s3Service) {
+        this.listingRepository = listingRepository;
+        this.listingImageRepository = listingImageRepository;
+        this.s3Service = s3Service;
+    }
 
-	@Override
-	public List<Listing> findAll() {
-		return listingRepository.findAll();
-	}
+    @Override
+    public List<Listing> findAll() {
+        return listingRepository.findAll();
+    }
 
-	@Override
-	public Listing create(ListingRequest listingRequest, Principal principal) {
-		Listing listing = mapper.toPersistent(listingRequest);
-		listing.setUser(userService.findUserByEmail(principal.getName()));
-		List<ListingUtilities> listingUtilities = createListingUtilities(listingRequest, listing);
-		listing.setListingUtilities(listingUtilities);
-		listing.setStatus(ListingStatus.PENDING);
-		listingRepository.saveAndFlush(listing);
-		return listing;
-	}
+    @Override
+    public Listing create(ListingRequest listingRequest, Principal principal) {
+        Listing listing = mapper.toPersistent(listingRequest);
+        listing.setUser(userService.findUserByEmail(principal.getName()));
+        List<ListingUtilities> listingUtilities = listingRequest.getUtilities() != null ?
+                createListingUtilities(listingRequest, listing) : Collections.emptyList();
+        listing.setListingUtilities(listingUtilities);
+        listing.setStatus(ListingStatus.PENDING);
+        listingRepository.saveAndFlush(listing);
+        return listing;
+    }
 
-	public Page<Listing> search(ListingSearchRequest request) {
-		return listingRepository.searchListing(request.getLatitude(), request.getLongitude(), request.getRadius()*1000,
-				request.getPrice(), request.getArea(),request.getNumBed(),request.getNumBath(),request.getListType(),
-				PageRequest.of(request.getPage(), request.getSize(), Sort.Direction.DESC, "last_modified"));
-	}
+    public Page<Listing> search(ListingSearchRequest request) {
+        return listingRepository.searchListing(request.getLatitude(), request.getLongitude(), request.getRadius() * 1000,
+                request.getPrice(), request.getArea(), request.getNumBed(), request.getNumBath(), request.getListType(),
+                PageRequest.of(request.getPage(), request.getSize(), Sort.Direction.DESC, "last_modified"));
+    }
 
-	@Override
-	public Listing findById(long id) {
-		return listingRepository.getOne(id);
-	}
+    @Override
+    public Listing findById(long id) {
+        Optional<Listing> listingOptional = listingRepository.findById(id);
+        if (!listingOptional.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+        return listingOptional.get();
+    }
 
-	@Override
-	public Listing update(Long id, @Valid ListingRequest request) {
+    @Override
+    public Listing update(Long id, ListingRequest request) {
+        Listing listing = findById(id);
+        User createBy = listing.getUser();
+        List<ListingUtilities> listingUtilities = listing.getListingUtilities();
+        listingUtilityRepository.deleteAll(listingUtilities);
+        listingUtilities = createListingUtilities(request, listing);
+        listing = mapper.toPersistent(request);
+        listing.setListingUtilities(listingUtilities);
+        listing.setId(id);
+        listing.setUser(createBy);
+        listingRepository.saveAndFlush(listing);
+        return listing;
+    }
 
-		Optional<Listing> listingOptional = listingRepository.findById(id);
-		if (!listingOptional.isPresent()) {
-			throw new EntityNotFoundException();
-		} else {
-			Listing listing = listingOptional.get();
-			User createBy = listing.getUser();
-			List<ListingUtilities> listingUtilities = listing.getListingUtilities();
-			listingUtilityRepository.deleteAll(listingUtilities);
-			listingUtilities = createListingUtilities(request, listing);
-			listing = mapper.toPersistent(request);
-			listing.setListingUtilities(listingUtilities);
-			listing.setId(id);
-			listing.setUser(createBy);
-			listingRepository.saveAndFlush(listing);
-			return listing;
-		}
-	}
+    @Override
+    public Listing update(Listing listing) {
+        return listingRepository.saveAndFlush(listing);
+    }
 
-	private List<ListingUtilities> createListingUtilities(ListingRequest listingRequest, Listing listing) {
-		List<ListingUtilities> listingUtilities = Arrays.stream(listingRequest.getUtilities()).boxed()
-				.collect(Collectors.toList()).stream()
-				.map(u -> new ListingUtilities(listing, utilitiesRepository.getOne(u))).collect(Collectors.toList());
-		return listingUtilities;
-	}
+    private List<ListingUtilities> createListingUtilities(ListingRequest listingRequest, Listing listing) {
+        List<Utility> utilities = utilitiesRepository.findUtilityByIdIn(listingRequest.getUtilities());
+        List<ListingUtilities> listingUtilities = utilities.stream()
+                .map(u -> new ListingUtilities(listing, u)).collect(Collectors.toList());
+        return listingUtilities;
+    }
 
-	public ListingImage saveImage(Long listingId, MultipartFile image) {
-		Listing listing = findById(listingId);
-		String imageName = listing.getId() +"/"+ image.getOriginalFilename();
-		String imageUrl = s3Service.uploadFile(imageName, image);
-		ListingImage listingImage = new ListingImage();
-		listingImage.setUrl(imageUrl);
-		listingImage.setListing(listing);
-		return listingImageRepository.saveAndFlush(listingImage);
-	}
+    public ListingImage saveImage(Long listingId, MultipartFile image) {
+        Listing listing = findById(listingId);
+        String imageName = listing.getId() + "/" + image.getOriginalFilename();
+        String imageUrl = s3Service.uploadFile(imageName, image);
+        ListingImage listingImage = new ListingImage();
+        listingImage.setUrl(imageUrl);
+        listingImage.setListing(listing);
+        return listingImageRepository.saveAndFlush(listingImage);
+    }
 
-	@Override
-	public List<Utility> getUtitlities() {
-		return utilitiesRepository.findAll();
-	}
+    @Override
+    public List<Utility> getUtitlities() {
+        return utilitiesRepository.findAll();
+    }
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/health",
-        produces = {"application/json", "application/xml"})
+        produces = {"application/json"})
 public class HealthcheckController {
 
     @GetMapping

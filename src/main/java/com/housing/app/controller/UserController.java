@@ -9,7 +9,7 @@ import com.housing.app.interceptor.JwtTokenProvider;
 import com.housing.app.mapper.UserMapper;
 import com.housing.app.model.User;
 import com.housing.app.service.UserService;
-import com.housing.app.util.LocaDateUtil;
+import com.housing.app.util.LocalDateUtil;
 import com.housing.app.util.PasswordUtil;
 import com.housing.app.util.RequestUtil;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +21,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -105,8 +106,13 @@ public class UserController {
 		currentUser.setFirstName(request.getFirstName());
 		currentUser.setLastName(request.getLastName());
 		currentUser.setPhone(request.getPhone());
-		currentUser.setDob(LocaDateUtil.convertStringToDate(request.getDob()));
+		currentUser.setDob(LocalDateUtil.convertStringToDate(request.getDob()));
+		// change password if user send password in request
+		if(!StringUtils.isEmpty(request.getPassword())) {
+			currentUser.setPassword(PasswordUtil.encrypt(request.getPassword()));
+		}
 		userService.saveUser(currentUser);
+
 		return new ResponseEntity<UserDto>(userMapper.toUserDto(currentUser), HttpStatus.OK);
 	}
 

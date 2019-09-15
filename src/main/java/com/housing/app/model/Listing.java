@@ -56,7 +56,17 @@ public class Listing {
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User user;
-	@OneToMany(mappedBy = "listing")
+	@OneToMany(
+			mappedBy = "listing",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
 	private List<ListingImage> listingImages;
+	private boolean furnished;
 	private boolean isIncludeUtilities;
+
+	public void removeImage(ListingImage image) {
+		listingImages.remove(image);
+		image.setListing(null);
+	}
 }

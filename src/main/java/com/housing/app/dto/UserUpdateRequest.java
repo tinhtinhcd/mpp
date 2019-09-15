@@ -14,6 +14,8 @@ public class UserUpdateRequest {
     @NotEmpty(message = "lastName should not be empty")
     private String lastName;
 
+    private String password;
+
     private String phone;
 
     private String gender;

@@ -32,5 +32,6 @@ public interface ListingMapper {
 		return listingResultDto;
 	}
 
+	@Mapping(target = "availableFrom", expression = "java(com.housing.app.util.LocalDateUtil.convertStringToDate(listingRequest.getAvailableFrom()))")
 	Listing toPersistent(ListingRequest listingRequest);
 }
