@@ -169,5 +169,5 @@ public class ListingController {
     private User getCurrentUser(String userName) {
         return userService.findUserByEmail(userName);
     }
-
+	
 }

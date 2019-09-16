@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class ListingRequest {
 
+	private long id;
 	@NotEmpty(message = "title should not be empty")
 	private String title;
 	private double latitude;
@@ -20,7 +21,7 @@ public class ListingRequest {
 	private int area;
 	@NotEmpty(message = "description should not be empty")
 	private String description;
-	private int listType;
+	private long listType;
 	private long[] utilities;
 	private boolean isIncludeUtilities;
 	private boolean furnished;
