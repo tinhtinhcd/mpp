@@ -57,8 +57,7 @@ public class ListingController {
     public ResponseEntity<List<ListingDto>> getAllMyListing(Principal principal) {
         User currentUser = getCurrentUser(principal.getName());
         List<Listing> listings = currentUser.getListings();
-        return new ResponseEntity<>(listings.stream().map(p -> mapper.toListingDto(p)).collect(Collectors.toList()),
-                HttpStatus.OK);
+        return new ResponseEntity(mapper.toListingDtos(listings), HttpStatus.OK);
     }
 
     @PostMapping

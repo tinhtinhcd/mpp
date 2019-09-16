@@ -18,6 +18,8 @@ import org.springframework.data.domain.Page;
 public interface ListingMapper {
 
 	@Mapping(source = "listingImages", target = "images")
+	@Mapping(target = "name", expression = "java(listing.getUser().getFirstName())")
+	@Mapping(target = "phone", expression = "java(listing.getUser().getPhone())")
 	ListingDto toListingDto(Listing listing);
 
 	List<ListingDto> toListingDtos(List<Listing> listings);

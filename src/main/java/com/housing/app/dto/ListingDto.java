@@ -26,5 +26,6 @@ public class ListingDto {
     private List<ListingImageDto> images;
     private boolean isIncludeUtilities;
     private boolean furnished;
-
+    private String name;
+    private String phone;
 }

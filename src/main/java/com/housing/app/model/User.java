@@ -52,7 +52,9 @@ public class User{
     @Column(name = "last_modified")
     private Timestamp lastModified;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Listing> listings;
  
 }
